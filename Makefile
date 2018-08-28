@@ -2,13 +2,13 @@ NAME      ?= mesosphere-zookeeper
 SHELL     := /bin/bash
 EMPTY     :=
 SPACE     := $(EMPTY) $(EMPTY)
-PKG_VER   ?= 3.4.6
+PKG_VER   ?= 3.4.12
 REL_MAJOR ?= 0
 REL_MINOR ?= 1
 REL_PATCH ?= $(shell date -u +'%Y%m%d%H%M%S')
 ITEMS     := $(REL_MAJOR) $(REL_MINOR) $(REL_PATCH)
 PKG_REL   := $(subst $(SPACE),.,$(strip $(ITEMS)))
-ZK_URL    ?= http://mirror.cogentco.com/pub/apache/zookeeper/stable/zookeeper-$(PKG_VER).tar.gz 
+ZK_URL    ?= http://mirror.cogentco.com/pub/apache/zookeeper/stable/zookeeper-$(PKG_VER).tar.gz
 SRC_TGZ    = $(notdir $(ZK_URL))
 CONTENTS  := opt/mesosphere/zookeeper/bin opt/mesosphere/zookeeper/lib \
 	opt/mesosphere/zookeeper/zookeeper-$(PKG_VER).jar usr etc
@@ -22,10 +22,10 @@ PKG        = $(TOP)/pkg
 help:
 	@echo "To build snapshot packages"
 	@echo "  make all"
-	@echo "  => pkg/mesosphere-zookeeper-3.4.6-0.1.20141128174217.centos7.x86_64.rpm"
+	@echo "  => pkg/mesosphere-zookeeper-3.4.12-0.1.20141128174217.centos7.x86_64.rpm"
 	@echo "To make a release build:"
 	@echo "  make REL_MAJOR=1 REL_MINOR=0 REL_PATCH=0 all"
-	@echo "  => pkg/mesosphere-zookeeper-3.4.6-1.0.0.centos7.x86_64.rpm"
+	@echo "  => pkg/mesosphere-zookeeper-3.4.12-1.0.0.centos7.x86_64.rpm"
 	@exit 0
 
 FPM_OPTS := -t rpm -s dir -n $(NAME) -v $(PKG_VER) \
@@ -89,4 +89,9 @@ $(TOOR)/usr/lib/systemd/system/zookeeper.service: zookeeper.service
 .PHONY: prep-ubuntu
 prep-ubuntu:
 	sudo apt-get -y install ruby-dev rpm
+	sudo gem install fpm
+
+.PHONY: prep-centos
+prep-centos:
+	sudo yum install ruby-devel gcc curl libyaml-devel rubygems rpm-build
 	sudo gem install fpm
