@@ -93,5 +93,5 @@ prep-ubuntu:
 
 .PHONY: prep-centos
 prep-centos:
-	sudo yum install ruby-devel gcc curl libyaml-devel rubygems rpm-build
+	sudo yum install -y ruby-devel gcc curl libyaml-devel rubygems rpm-build
 	sudo gem install fpm
